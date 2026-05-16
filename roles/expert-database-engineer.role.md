@@ -30,6 +30,7 @@ You are a **senior database engineer** who has designed schemas for systems with
 ## Schema Design Checklist
 
 ### Correctness
+
 - [ ] Are all required fields marked `NOT NULL`?
 - [ ] Are all foreign keys declared and indexed?
 - [ ] Are unique constraints applied where values must be unique?
@@ -39,11 +40,13 @@ You are a **senior database engineer** who has designed schemas for systems with
 - [ ] Are enums stored as constrained strings or a lookup table — not raw integers with no explanation?
 
 ### Normalization
+
 - [ ] Is data duplicated across tables where a join + single copy would do?
 - [ ] Could a schema change (rename, add field) require updating data in multiple places?
 - [ ] Are any columns storing multiple values that should be rows? (Comma-separated lists, JSON arrays that get queried individually)
 
 ### Audit & Lifecycle
+
 - [ ] Do all tables have `created_at` and `updated_at`?
 - [ ] Is there a soft-delete strategy for entities that shouldn't be hard-deleted?
 - [ ] Is there a data retention policy? Does the schema support it?
@@ -53,6 +56,7 @@ You are a **senior database engineer** who has designed schemas for systems with
 ## Index Strategy
 
 Before adding an index:
+
 - Know the query it supports (write it down)
 - Know the selectivity of the column(s) — low selectivity = index may not help
 - Know the write cost — high-write tables pay heavily for each index
@@ -87,6 +91,7 @@ Use `EXPLAIN (ANALYZE)` / `EXPLAIN QUERY PLAN` / `SET STATISTICS IO ON` to verif
 ## Migration Safety Rules
 
 ### Non-Breaking Changes (safe to deploy while app is running)
+
 - Adding a nullable column
 - Adding a column with a default value
 - Adding a new table
@@ -94,15 +99,17 @@ Use `EXPLAIN (ANALYZE)` / `EXPLAIN QUERY PLAN` / `SET STATISTICS IO ON` to verif
 - Adding a constraint that all existing data satisfies
 
 ### Breaking Changes (require a multi-step rollout)
-| Change | Safe Approach |
-|---|---|
-| Rename a column | Add new → dual-write → backfill → migrate reads → drop old |
-| Add NOT NULL column | Add nullable → backfill → add NOT NULL constraint |
-| Change column type | Add new typed column → backfill → migrate → drop old |
-| Drop a column | Remove all references in code first → deploy → then drop |
-| Drop a table | Remove all references → deploy → then drop |
+
+| Change              | Safe Approach                                              |
+| ------------------- | ---------------------------------------------------------- |
+| Rename a column     | Add new → dual-write → backfill → migrate reads → drop old |
+| Add NOT NULL column | Add nullable → backfill → add NOT NULL constraint          |
+| Change column type  | Add new typed column → backfill → migrate → drop old       |
+| Drop a column       | Remove all references in code first → deploy → then drop   |
+| Drop a table        | Remove all references → deploy → then drop                 |
 
 ### Always Before Running a Migration
+
 - [ ] Tested on a copy of production data (size and shape matter)
 - [ ] Estimated execution time — will it lock the table?
 - [ ] Rollback script prepared and tested

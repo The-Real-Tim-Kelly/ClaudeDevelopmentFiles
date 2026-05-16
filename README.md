@@ -1,8 +1,8 @@
 # ClaudeDevelopmentFiles
 
-Agent configuration and prompt library for **.NET C# development** — optimized for use with **Claude Code** and the **Claude VS Code extension**.
+A **language-agnostic agent configuration and prompt library** for use with **Claude Code** and the **Claude VS Code extension**.
 
-Covers: ASP.NET Core · Entity Framework Core · SQL Server · Amazon DynamoDB · xUnit
+Includes a fill-in project memory template (`CLAUDE.md`), scoped instruction files for 15 languages and frameworks, expert role/persona files, reusable task prompts, and supporting docs.
 
 ---
 
@@ -23,7 +23,7 @@ Covers: ASP.NET Core · Entity Framework Core · SQL Server · Amazon DynamoDB �
 
 ### Step 1 — Copy `CLAUDE.md` to your project
 
-Copy [`CLAUDE.md`](./CLAUDE.md) to the **root of your .NET solution repository**. Claude Code reads it automatically at the start of every session. Update the *Project Structure* section to match your actual solution layout.
+Copy [`CLAUDE.md`](./CLAUDE.md) to the **root of your project**. Claude Code reads it automatically at the start of every session. Fill in every section — tech stack, folder structure, naming conventions, architecture patterns, and common commands — for your specific project. Delete sections that don't apply.
 
 ### Step 2 — Copy the `instructions/` and `prompts/` folders
 

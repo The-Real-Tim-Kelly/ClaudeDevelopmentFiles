@@ -1,131 +1,152 @@
 # CLAUDE.md — Project Memory for Claude Code
 
 This file is automatically read by Claude Code at the start of every session.
-Update it to reflect your project's conventions, architecture, and preferences.
+**Copy this file to the root of your project and fill in every section below.**
+The more accurately this reflects your actual project, the better the agent will perform.
+
+Delete placeholder text and sections that don't apply to your stack.
+
+---
+
+## Project Overview
+
+<!-- One or two sentences: what does this application do? Who uses it? -->
+<!-- Example: "A B2B SaaS platform for managing field service work orders. Used by operations managers and field technicians." -->
+
+**Description:** [TODO — describe the application]
+
+**Type:** [e.g., REST API / Web App / CLI tool / Background service / Mobile app]
 
 ---
 
 ## Tech Stack
 
-- **Language:** C# (.NET 8+)
-- **ORM:** Entity Framework Core (Code-First, Migrations)
-- **Relational DB:** SQL Server (Azure SQL or on-prem)
-- **NoSQL DB:** Amazon DynamoDB (via AWSSDK.DynamoDBv2)
-- **Test Framework:** xUnit + Moq
-- **DI Container:** Microsoft.Extensions.DependencyInjection
-- **Logging:** Microsoft.Extensions.Logging / Serilog
-- **Cloud:** AWS (DynamoDB, potentially S3, SQS, SNS)
+<!-- List every significant technology. Be specific about versions where they matter. -->
+<!-- Remove lines that don't apply; add lines for things not listed. -->
+
+- **Language(s):** [e.g., TypeScript 5, Python 3.12, C# .NET 9, Go 1.23, Java 21]
+- **Runtime / Framework:** [e.g., Node.js 22, ASP.NET Core, Spring Boot 3, FastAPI]
+- **Frontend:** [e.g., React 18 + Vite, Next.js 14, None]
+- **Database(s):** [e.g., PostgreSQL 16, SQL Server 2022, MongoDB 7, SQLite, DynamoDB]
+- **ORM / Data Access:** [e.g., Entity Framework Core, Prisma, SQLAlchemy, GORM]
+- **Test Framework:** [e.g., xUnit + Moq, pytest, Jest, JUnit 5]
+- **Cloud / Infrastructure:** [e.g., AWS, Azure, GCP, self-hosted]
+- **Key Libraries:** [e.g., FluentValidation, TanStack Query, Pydantic, Lombok]
 
 ---
 
-## Project Structure (Typical)
+## Project Structure
+
+<!-- Show the top-level folder layout with a brief annotation for each folder. -->
+<!-- This is the single most useful thing for the agent — don't skip it. -->
 
 ```
+[TODO — paste or describe your folder structure here]
+
+Example:
 src/
-  MyApp.Api/              # ASP.NET Core Web API
-  MyApp.Application/      # Application layer (CQRS / services)
-  MyApp.Domain/           # Domain entities, interfaces, value objects
-  MyApp.Infrastructure/   # EF DbContext, Repositories, DynamoDB clients
-  MyApp.Tests/            # xUnit test projects
+  api/           # HTTP handlers and routing
+  domain/        # Core business logic and entities
+  infra/         # Database, external services
+  shared/        # Shared utilities, constants, types
+tests/           # Unit and integration tests
 ```
 
 ---
 
-## C# Conventions
+## Naming Conventions
 
-- Use **PascalCase** for classes, methods, properties, and public fields.
-- Use **camelCase** for local variables and parameters.
-- Use **\_camelCase** (underscore prefix) for private instance fields.
-- Enable **nullable reference types** (`<Nullable>enable</Nullable>`) — handle nulls explicitly.
-- Prefer **async/await** end-to-end; suffix async methods with `Async`.
-- Use **primary constructors** (.NET 8+) for simple dependency injection.
-- Use **records** for immutable DTOs and value objects.
-- Prefer **pattern matching** and **switch expressions** over if-else chains.
-- Use **LINQ** over manual loops; prefer method syntax over query syntax.
-- Never suppress `CS8618` — initialize non-nullable properties properly.
+<!-- The agent will default to conventions for your language — only override what differs from standard. -->
 
----
-
-## Entity Framework Core Conventions
-
-- Use **Code-First** with migrations (`dotnet ef migrations add <Name>`).
-- All DbContext access must go through a **repository interface** — no direct DbContext in controllers or services.
-- Always use **async EF methods** (`ToListAsync`, `FirstOrDefaultAsync`, `SaveChangesAsync`).
-- **Eager-load** explicitly with `.Include()` / `.ThenInclude()` — lazy loading is disabled.
-- Migration naming convention: `YYYYMMDD_ShortDescription` (e.g., `20260516_AddUserEmailIndex`).
-- Configure entities using **Fluent API** in `IEntityTypeConfiguration<T>` classes, not data annotations.
-- Use **value converters** for enums stored as strings.
-- **Soft-delete** pattern: `IsDeleted` bool + global query filter instead of hard deletes.
-
-### Common Commands
-
-```bash
-dotnet ef migrations add <MigrationName> --project src/MyApp.Infrastructure --startup-project src/MyApp.Api
-dotnet ef database update --project src/MyApp.Infrastructure --startup-project src/MyApp.Api
-dotnet ef migrations remove --project src/MyApp.Infrastructure --startup-project src/MyApp.Api
-```
+- **Files:** [e.g., kebab-case.ts / PascalCase.cs / snake_case.py]
+- **Classes / Types:** [e.g., PascalCase]
+- **Functions / Methods:** [e.g., camelCase / snake_case]
+- **Variables:** [e.g., camelCase]
+- **Database tables / columns:** [e.g., snake_case, plural table names]
+- **Constants:** [e.g., SCREAMING_SNAKE_CASE]
+- **Test files:** [e.g., `*.test.ts` colocated with source / `tests/` mirror structure]
 
 ---
 
-## SQL Server Conventions
+## Architecture & Patterns
 
-- Always use **parameterized queries** or EF — never build SQL strings with user input.
-- Prefix all objects with schema: `dbo.TableName`.
-- Use `NOLOCK` hints only in read-heavy reporting queries, never for transactional reads.
-- Prefer **stored procedures** for complex multi-step data operations; simple CRUD goes through EF.
-- Index strategy: clustered on PK, non-clustered on FK columns and common filter columns.
-- Use `NVARCHAR` for variable-length strings; `DATETIME2` instead of `DATETIME`.
-- All tables must have a `CreatedAt DATETIME2` and `UpdatedAt DATETIME2` audit column.
+<!-- Describe the patterns in use. The agent needs to know these to write consistent code. -->
 
----
+**Layering / structure:**
+[e.g., "Clean Architecture — Domain → Application → Infrastructure → API. No infrastructure references in Domain or Application layers."
+or "Feature folders: each feature owns its own handler, service, and repository."
+or "MVC — thin controllers, business logic in services, repositories for data access."]
 
-## DynamoDB (AWS) Conventions
+**Data access:**
+[e.g., "Repository pattern — all DB access through interfaces, never raw ORM in controllers or services."
+or "Direct ORM queries in service layer — no repository abstraction."
+or "CQRS with MediatR — commands and queries separated."]
 
-- Use **`AmazonDynamoDBClient`** and **`DynamoDBContext`** from `AWSSDK.DynamoDBv2`.
-- Register the client as a **singleton** in DI.
-- Use **`[DynamoDBTable]`** and **`[DynamoDBHashKey]`** / **`[DynamoDBRangeKey]`** attributes on model classes.
-- Prefer **single-table design** where it reduces GSI complexity; document the access patterns clearly.
-- Use **condition expressions** on writes to prevent overwriting unexpected data.
-- Batch reads: `BatchGetAsync`; batch writes: `BatchWriteAsync` (max 25 items).
-- Never do a **full table scan** in production code — always query a GSI or use the primary key.
-- Table names and GSI names belong in `appsettings.json` / AWS Parameter Store — not hardcoded.
+**Error handling:**
+[e.g., "Exceptions bubble up and are caught by a global handler returning RFC 9457 ProblemDetails."
+or "Result<T> / Either pattern — no exceptions for expected failures."
+or "Errors returned as values; only panic for truly unrecoverable states."]
 
----
-
-## Repository Pattern
-
-```csharp
-// Interface (Domain layer)
-public interface IUserRepository
-{
-    Task<User?> GetByIdAsync(Guid id, CancellationToken ct = default);
-    Task<IReadOnlyList<User>> GetAllAsync(CancellationToken ct = default);
-    Task AddAsync(User user, CancellationToken ct = default);
-    Task UpdateAsync(User user, CancellationToken ct = default);
-    Task DeleteAsync(Guid id, CancellationToken ct = default);
-}
-
-// Implementation (Infrastructure layer — EF or DynamoDB)
-public sealed class UserRepository(AppDbContext db) : IUserRepository { ... }
-```
+**Async:**
+[e.g., "Async end-to-end — no sync-over-async. All I/O must be awaited."
+or "Sync codebase — async only at the HTTP boundary."]
 
 ---
 
 ## Testing Conventions
 
-- Test class name: `<ClassName>Tests` in a matching namespace.
-- Use `[Fact]` for single cases, `[Theory]` + `[InlineData]` / `[MemberData]` for parameterized tests.
-- Method name pattern: `MethodName_Scenario_ExpectedResult`.
-- Use **Moq** to mock dependencies; never mock the subject under test.
-- Use **in-memory SQLite** (`UseInMemoryDatabase` or SQLite provider) for EF integration tests.
-- Assert with **FluentAssertions** where available.
+<!-- Describe test structure, naming, and tooling. -->
+
+- **Test location:** [e.g., colocated `*.test.ts` files / separate `tests/` mirror / `*Tests.cs` in project]
+- **Test naming:** [e.g., `methodName_scenario_expectedResult` / `test_method_when_x_then_y` / `"should do X when Y"`]
+- **Mocking:** [e.g., Moq / Jest mocks / unittest.mock / testify]
+- **Integration tests:** [e.g., against in-memory DB / Docker Compose / real test DB]
+- **Assertions:** [e.g., FluentAssertions / built-in assert / assertj]
+
+---
+
+## Key Conventions & Rules
+
+<!-- Project-specific rules that override or extend language defaults. -->
+<!-- Be specific — vague rules like "write clean code" are useless here. -->
+
+- [e.g., "All database queries must be paginated — no unbounded fetches."]
+- [e.g., "Every public API endpoint requires authentication unless marked [AllowAnonymous]."]
+- [e.g., "Secrets must come from environment variables or secrets manager — never hardcoded."]
+- [e.g., "All timestamps stored and compared in UTC."]
+- [e.g., "Soft delete only — no hard deletes on user-owned data."]
+- [e.g., "Feature flags live in config — no if/else blocks for features in domain logic."]
+
+---
+
+## Common Commands
+
+<!-- The commands the agent will need to run locally. -->
+
+```bash
+# Install dependencies
+[TODO]
+
+# Run the application
+[TODO]
+
+# Run tests
+[TODO]
+
+# Run linter / formatter
+[TODO]
+
+# Database migrations (if applicable)
+[TODO]
+```
 
 ---
 
 ## Important Reminders for the Agent
 
-- Always respect the **repository abstraction** — do not let EF leak into the application layer.
-- When generating SQL Server migrations, check for **breaking changes** (column renames, type changes) and generate explicit `RenameColumn` / `AlterColumn` steps.
-- When working with DynamoDB, always state the **access pattern** the query is designed to serve.
-- Validate all external inputs at the API boundary — never trust data from request bodies without FluentValidation or DataAnnotations.
-- Keep secrets out of code — use `IConfiguration`, environment variables, or AWS Secrets Manager.
+<!-- Rules you've had to correct the agent on before. Add to this list over time. -->
+<!-- See also: docs/common-agent-mistakes.md for a running log. -->
+
+- Validate all external inputs at the API / service boundary — never trust request data directly.
+- Keep secrets out of code — use environment variables, config files excluded from source control, or a secrets manager.
+- [Add your own reminders here as you work with the agent and notice repeated mistakes.]
