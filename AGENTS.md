@@ -27,9 +27,19 @@ These files extend `CLAUDE.md` with deeper, domain-specific rules. Reference the
 | File | Covers | How to Reference |
 |---|---|---|
 | [`instructions/csharp.instructions.md`](./instructions/csharp.instructions.md) | C# naming, async, nullability, patterns | `@instructions/csharp.instructions.md` |
+| [`instructions/aspnetcore.instructions.md`](./instructions/aspnetcore.instructions.md) | Controllers, routing, middleware, error handling | `@instructions/aspnetcore.instructions.md` |
+| [`instructions/fluentvalidation.instructions.md`](./instructions/fluentvalidation.instructions.md) | Validator structure, rules, registration | `@instructions/fluentvalidation.instructions.md` |
 | [`instructions/sqlserver.instructions.md`](./instructions/sqlserver.instructions.md) | SQL types, parameterization, NOLOCK, indexes | `@instructions/sqlserver.instructions.md` |
 | [`instructions/entityframework.instructions.md`](./instructions/entityframework.instructions.md) | EF Core, repository pattern, migrations | `@instructions/entityframework.instructions.md` |
 | [`instructions/dynamodb.instructions.md`](./instructions/dynamodb.instructions.md) | DynamoDB key design, queries, GSIs | `@instructions/dynamodb.instructions.md` |
+| [`instructions/aws.instructions.md`](./instructions/aws.instructions.md) | S3, SQS, SNS patterns and conventions | `@instructions/aws.instructions.md` |
+| [`instructions/java.instructions.md`](./instructions/java.instructions.md) | Java 21, naming, records, streams, Spring DI | `@instructions/java.instructions.md` |
+| [`instructions/python.instructions.md`](./instructions/python.instructions.md) | Python 3.11+, type hints, Pydantic, async, pytest | `@instructions/python.instructions.md` |
+| [`instructions/go.instructions.md`](./instructions/go.instructions.md) | Go conventions, errors, interfaces, context, goroutines | `@instructions/go.instructions.md` |
+| [`instructions/react.instructions.md`](./instructions/react.instructions.md) | React 18+, TypeScript, hooks, state, TanStack Query | `@instructions/react.instructions.md` |
+| [`instructions/sqlite.instructions.md`](./instructions/sqlite.instructions.md) | SQLite pragmas, WAL mode, types, migrations | `@instructions/sqlite.instructions.md` |
+| [`instructions/postgres.instructions.md`](./instructions/postgres.instructions.md) | PostgreSQL types, indexes, transactions, security | `@instructions/postgres.instructions.md` |
+| [`instructions/mongodb.instructions.md`](./instructions/mongodb.instructions.md) | MongoDB schema design, indexes, aggregation, transactions | `@instructions/mongodb.instructions.md` |
 
 ### Reusable Prompt Files (On Demand)
 
@@ -37,6 +47,7 @@ Pre-written, opinionated task prompts. Reference them in Claude Code or paste th
 
 | File | Purpose |
 |---|---|
+| [`prompts/scaffold-vertical-slice.prompt.md`](./prompts/scaffold-vertical-slice.prompt.md) | Scaffold the full stack for a feature in one pass |
 | [`prompts/scaffold-ef-entity.prompt.md`](./prompts/scaffold-ef-entity.prompt.md) | Scaffold an EF Core entity + Fluent config |
 | [`prompts/scaffold-repository.prompt.md`](./prompts/scaffold-repository.prompt.md) | Scaffold a repository interface + implementation |
 | [`prompts/write-sql-migration.prompt.md`](./prompts/write-sql-migration.prompt.md) | Generate an EF Core migration script |
@@ -49,6 +60,7 @@ Pre-written, opinionated task prompts. Reference them in Claude Code or paste th
 | File | Purpose |
 |---|---|
 | [`docs/agent-optimization-summary.md`](./docs/agent-optimization-summary.md) | Deep-dive on the strategy behind all these files |
+| [`docs/common-agent-mistakes.md`](./docs/common-agent-mistakes.md) | Living log of patterns the agent gets wrong — add entries as you find them |
 | [`README.md`](./README.md) | Getting started guide |
 
 ---
