@@ -56,6 +56,21 @@ Pre-written, opinionated task prompts. Reference them in Claude Code or paste th
 | [`prompts/generate-unit-tests.prompt.md`](./prompts/generate-unit-tests.prompt.md) | Generate xUnit unit tests |
 | [`prompts/code-review.prompt.md`](./prompts/code-review.prompt.md) | Run a .NET-focused code review |
 
+### Role / Persona Files (On Demand)
+
+Activate an expert persona for a specific type of task. Combine with instruction files for maximum precision.
+
+| File | Role | When to Use |
+|---|---|---|
+| [`roles/expert-software-engineer.role.md`](./roles/expert-software-engineer.role.md) | Senior Software Engineer | Writing or completing production-grade implementation |
+| [`roles/expert-code-reviewer.role.md`](./roles/expert-code-reviewer.role.md) | Principal Code Reviewer | Adversarial, structured review of a file or PR |
+| [`roles/expert-test-engineer.role.md`](./roles/expert-test-engineer.role.md) | Senior Test Engineer | Writing thorough tests including edge cases and failure paths |
+| [`roles/expert-security-reviewer.role.md`](./roles/expert-security-reviewer.role.md) | Application Security Engineer | Security audit against OWASP Top 10 |
+| [`roles/expert-architect.role.md`](./roles/expert-architect.role.md) | Principal Architect | Design decisions, trade-off analysis, system structure |
+| [`roles/expert-debugger.role.md`](./roles/expert-debugger.role.md) | Debugging Specialist | Root cause analysis of bugs and unexpected behavior |
+| [`roles/expert-refactorer.role.md`](./roles/expert-refactorer.role.md) | Refactoring Specialist | Behavior-preserving structural improvements |
+| [`roles/expert-database-engineer.role.md`](./roles/expert-database-engineer.role.md) | Senior Database Engineer | Schema design, query review, migration safety |
+
 ### Documentation
 
 | File | Purpose |
@@ -71,6 +86,7 @@ Pre-written, opinionated task prompts. Reference them in Claude Code or paste th
 ```
 CLAUDE.md                          ← Auto-loaded every Claude Code session (highest trust)
 instructions/*.instructions.md     ← Reference on demand for focused domain work
+roles/*.role.md                    ← Reference on demand to activate an expert persona
 prompts/*.prompt.md                ← Reference on demand for reusable task execution
 ```
 
@@ -80,5 +96,6 @@ prompts/*.prompt.md                ← Reference on demand for reusable task exe
 
 1. **`CLAUDE.md` is the always-on baseline** — it covers the full stack at a summary level and is automatically loaded every session.
 2. **Instruction files are on-demand depth** — pull them in when you're doing focused work in a specific area (EF migrations, DynamoDB queries, etc.).
-3. **Prompts are reusable task macros** — each prompt bakes in your architecture standards so you only need to provide the task-specific inputs.
-4. **Keep these files up to date** — as your architecture evolves, update `CLAUDE.md` and the relevant instruction files. Stale context is worse than no context.
+3. **Role files activate an expert persona** — combine with the relevant instruction file to get both the mindset and the domain standards in one session.
+4. **Prompts are reusable task macros** — each prompt bakes in your architecture standards so you only need to provide the task-specific inputs.
+5. **Keep these files up to date** — as your architecture evolves, update `CLAUDE.md` and the relevant instruction files. Stale context is worse than no context.

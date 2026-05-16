@@ -12,7 +12,8 @@ Covers: ASP.NET Core · Entity Framework Core · SQL Server · Amazon DynamoDB �
 |---|---|
 | [`CLAUDE.md`](./CLAUDE.md) | Project memory — auto-loaded by Claude Code every session |
 | [`AGENTS.md`](./AGENTS.md) | Overview of all agent files and their relationships |
-| [`instructions/`](./instructions/) | Detailed coding standards by domain (C#, SQL, EF, DynamoDB) |
+| [`instructions/`](./instructions/) | Detailed coding standards by domain (C#, SQL, EF, DynamoDB, and more) |
+| [`roles/`](./roles/) | Expert persona files — activate a specialized engineering mindset |
 | [`prompts/`](./prompts/) | Reusable task prompt templates |
 | [`docs/agent-optimization-summary.md`](./docs/agent-optimization-summary.md) | Deep-dive strategy document |
 
@@ -110,3 +111,29 @@ Opinionated, reusable task prompts. Reference in Claude Code with `@prompts/<nam
 - [Agent Optimization Strategy](./docs/agent-optimization-summary.md) — why these files exist and how they work together
 - [Common Agent Mistakes](./docs/common-agent-mistakes.md) — living log of patterns to watch for; add entries as you find them
 - [AGENTS.md](./AGENTS.md) — full file inventory and usage hierarchy
+
+---
+
+## Role Files
+
+Activate an expert persona for a specific task type. Combine with the relevant instruction file for maximum effect:
+
+| Role File | Persona | Best Used For |
+|---|---|---|
+| [`expert-software-engineer`](./roles/expert-software-engineer.role.md) | Senior Software Engineer | Production-grade implementation |
+| [`expert-code-reviewer`](./roles/expert-code-reviewer.role.md) | Principal Code Reviewer | Structured, adversarial code review |
+| [`expert-test-engineer`](./roles/expert-test-engineer.role.md) | Senior Test Engineer | Thorough tests with edge cases and failure paths |
+| [`expert-security-reviewer`](./roles/expert-security-reviewer.role.md) | App Security Engineer | OWASP Top 10 security audit |
+| [`expert-architect`](./roles/expert-architect.role.md) | Principal Architect | Design decisions and trade-off analysis |
+| [`expert-debugger`](./roles/expert-debugger.role.md) | Debugging Specialist | Root cause analysis |
+| [`expert-refactorer`](./roles/expert-refactorer.role.md) | Refactoring Specialist | Behavior-preserving structural improvements |
+| [`expert-database-engineer`](./roles/expert-database-engineer.role.md) | Senior Database Engineer | Schema design, query review, migration safety |
+
+**Example — security review with domain context:**
+
+```
+@roles/expert-security-reviewer.role.md
+@instructions/aspnetcore.instructions.md
+@src/MyApp.Api/Controllers/OrdersController.cs
+Review this controller for security issues.
+```
