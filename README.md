@@ -71,6 +71,7 @@ Detailed domain-specific standards to pull in when needed:
 
 | File | Domain | Key Rules |
 |---|---|---|
+| [`observe-first.instructions.md`](./instructions/observe-first.instructions.md) | All languages | Combine with any instruction file to prioritize existing codebase patterns over standards |
 | [`csharp.instructions.md`](./instructions/csharp.instructions.md) | All C# code | Naming, async/await, nullability, LINQ, error handling |
 | [`aspnetcore.instructions.md`](./instructions/aspnetcore.instructions.md) | ASP.NET Core API | Thin controllers, DTOs, routing, middleware, error handling |
 | [`fluentvalidation.instructions.md`](./instructions/fluentvalidation.instructions.md) | FluentValidation | Validator structure, rule style, registration, async rules |

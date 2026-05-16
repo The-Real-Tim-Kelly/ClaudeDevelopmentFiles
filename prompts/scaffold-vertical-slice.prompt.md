@@ -9,6 +9,7 @@
 Given the feature description below, produce the full vertical slice across all layers:
 
 ### 1. Domain Entity + EF Configuration
+
 - Entity in `src/MyApp.Domain/Entities/<EntityName>.cs`
   - Inherits `AuditableEntity` (`CreatedAt`, `UpdatedAt`)
   - Private setters, static `Create(...)` factory, private EF constructor
@@ -19,6 +20,7 @@ Given the feature description below, produce the full vertical slice across all 
   - Global query filter if soft-delete applies
 
 ### 2. Repository Interface + Implementation
+
 - Interface in `src/MyApp.Domain/Interfaces/I<Entity>Repository.cs`
   - Async methods, `CancellationToken ct = default` on all, typed return types
 - Implementation in `src/MyApp.Infrastructure/Persistence/Repositories/<Entity>Repository.cs`
@@ -27,16 +29,19 @@ Given the feature description below, produce the full vertical slice across all 
   - Soft-delete's `DeleteAsync` sets `IsDeleted = true`, does not call `db.Remove()`
 
 ### 3. Request/Response DTOs
+
 - In `src/MyApp.Application/Models/`
 - `Create<Entity>Request` and `Update<Entity>Request` as `sealed record`
 - `<Entity>Response` as `sealed record` with all fields the API should expose (no domain entity exposure)
 
 ### 4. FluentValidation Validator
+
 - In `src/MyApp.Application/Validators/<Create>Validator.cs` and `<Update>Validator.cs`
 - Validates the request records: `NotEmpty`, `MaximumLength`, `EmailAddress`, etc. as appropriate
 - Friendly `.WithMessage(...)` on every rule
 
 ### 5. Service Interface + Implementation
+
 - Interface in `src/MyApp.Application/Interfaces/I<Entity>Service.cs`
   - Methods: `GetByIdAsync`, `GetAllAsync`, `CreateAsync`, `UpdateAsync`, `DeleteAsync`
 - Implementation in `src/MyApp.Application/Services/<Entity>Service.cs`
@@ -45,6 +50,7 @@ Given the feature description below, produce the full vertical slice across all 
   - Throws `NotFoundException` for missing records on get/update/delete
 
 ### 6. Controller
+
 - In `src/MyApp.Api/Controllers/<Entity>sController.cs`
 - `[ApiController]`, `[Route("api/[controller]")]`, derives from `ControllerBase`
 - Thin — delegates immediately to service, no business logic
@@ -56,12 +62,14 @@ Given the feature description below, produce the full vertical slice across all 
   - `DELETE /{id}` → `NoContent` / `NotFound`
 
 ### 7. Unit Tests
+
 - In `src/MyApp.Tests/Services/<Entity>ServiceTests.cs`
 - Tests for: `GetByIdAsync` (found / not found), `CreateAsync` (success), `UpdateAsync` (success / not found), `DeleteAsync` (success / not found)
 - Uses Moq for `I<Entity>Repository`; FluentAssertions for assertions
 - Method name pattern: `MethodName_Scenario_ExpectedResult`
 
 ### 8. DI Registration Snippet
+
 - Service and repository `AddScoped` registrations to add to the infrastructure/application extension methods
 
 ---

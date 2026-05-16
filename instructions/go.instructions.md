@@ -15,14 +15,14 @@
 
 ## Naming Conventions
 
-| Element | Convention | Example |
-|---|---|---|
-| Exported (public) | PascalCase | `OrderService`, `GetByID` |
-| Unexported (package-private) | camelCase | `orderRepo`, `validatePayload` |
-| Interfaces | Noun or `-er` suffix | `Repository`, `OrderReader` |
-| Acronyms | All-caps if exported | `userID`, `parseURL`, `HTTPClient` |
-| Package names | Short, lowercase, no underscores | `order`, `customerrepo` |
-| Test files | `<file>_test.go`, same package | `order_service_test.go` |
+| Element                      | Convention                       | Example                            |
+| ---------------------------- | -------------------------------- | ---------------------------------- |
+| Exported (public)            | PascalCase                       | `OrderService`, `GetByID`          |
+| Unexported (package-private) | camelCase                        | `orderRepo`, `validatePayload`     |
+| Interfaces                   | Noun or `-er` suffix             | `Repository`, `OrderReader`        |
+| Acronyms                     | All-caps if exported             | `userID`, `parseURL`, `HTTPClient` |
+| Package names                | Short, lowercase, no underscores | `order`, `customerrepo`            |
+| Test files                   | `<file>_test.go`, same package   | `order_service_test.go`            |
 
 ---
 
@@ -44,6 +44,7 @@
 
 - Define interfaces **at the point of use** (consumer side), not where the type is defined
 - Keep interfaces small — prefer composing small interfaces over large ones:
+
   ```go
   type OrderReader interface {
       GetByID(ctx context.Context, id string) (*Order, error)
@@ -59,6 +60,7 @@
       OrderWriter
   }
   ```
+
 - Never return a concrete struct from a constructor when an interface is what callers need
 
 ---

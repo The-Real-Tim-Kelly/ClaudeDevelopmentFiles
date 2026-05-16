@@ -32,15 +32,15 @@ public sealed class OrdersController(IOrderService orderService) : ControllerBas
 - Use **typed `ActionResult<T>`** on all endpoints — never raw `IActionResult` unless the response shape is genuinely dynamic
 - Use the correct HTTP status helpers:
 
-| Scenario | Return |
-|---|---|
-| Success with body | `Ok(result)` |
-| Created resource | `CreatedAtAction(nameof(GetById), new { id }, result)` |
-| No content | `NoContent()` |
-| Not found | `NotFound()` |
-| Validation failure | `BadRequest(ModelState)` or let `[ApiController]` handle it |
-| Conflict | `Conflict(new ProblemDetails { ... })` |
-| Unhandled error | Let middleware return 500 — do not catch and swallow in controllers |
+| Scenario           | Return                                                              |
+| ------------------ | ------------------------------------------------------------------- |
+| Success with body  | `Ok(result)`                                                        |
+| Created resource   | `CreatedAtAction(nameof(GetById), new { id }, result)`              |
+| No content         | `NoContent()`                                                       |
+| Not found          | `NotFound()`                                                        |
+| Validation failure | `BadRequest(ModelState)` or let `[ApiController]` handle it         |
+| Conflict           | `Conflict(new ProblemDetails { ... })`                              |
+| Unhandled error    | Let middleware return 500 — do not catch and swallow in controllers |
 
 ## Request & Response DTOs
 

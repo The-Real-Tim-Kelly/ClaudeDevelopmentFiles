@@ -26,6 +26,7 @@ These files extend `CLAUDE.md` with deeper, domain-specific rules. Reference the
 
 | File | Covers | How to Reference |
 |---|---|---|
+| [`instructions/observe-first.instructions.md`](./instructions/observe-first.instructions.md) | Prioritize existing codebase patterns over standards; combine with any other instruction file | `@instructions/observe-first.instructions.md` |
 | [`instructions/csharp.instructions.md`](./instructions/csharp.instructions.md) | C# naming, async, nullability, patterns | `@instructions/csharp.instructions.md` |
 | [`instructions/aspnetcore.instructions.md`](./instructions/aspnetcore.instructions.md) | Controllers, routing, middleware, error handling | `@instructions/aspnetcore.instructions.md` |
 | [`instructions/fluentvalidation.instructions.md`](./instructions/fluentvalidation.instructions.md) | Validator structure, rules, registration | `@instructions/fluentvalidation.instructions.md` |

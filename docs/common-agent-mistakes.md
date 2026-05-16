@@ -16,7 +16,7 @@ Each entry follows this structure:
 
 **Pattern:** What the agent does wrong  
 **Why it's wrong:** Short explanation  
-**Correct approach:** What to do instead  
+**Correct approach:** What to do instead
 
 ---
 
@@ -120,8 +120,8 @@ Each entry follows this structure:
 
 ## Add New Entries Below
 
-<!-- 
-**Pattern:**   
-**Why it's wrong:**   
-**Correct approach:**   
+<!--
+**Pattern:**
+**Why it's wrong:**
+**Correct approach:**
 -->
