@@ -38,7 +38,7 @@ applyTo: '**/*.cs'
 - Always include `CancellationToken ct = default` as the last parameter on public async methods
 - Pass `ct` through to all downstream async calls — never discard it
 - Never use `.Result` or `.Wait()` — always `await`
-- Use `ConfigureAwait(false)` in library code (not in ASP.NET Core application code)
+- Use `ConfigureAwait(false)` in library code (any project intended to be consumed by other assemblies) — omit it in ASP.NET Core application/API projects
 
 ## Language Features — Prefer These
 

@@ -1,6 +1,6 @@
 ---
-mode: "agent"
-description: "Review an existing instruction, prompt, or role file for quality and correctness"
+mode: 'agent'
+description: 'Review an existing instruction, prompt, or role file for quality and correctness'
 ---
 
 # Review Agent Config File
@@ -9,7 +9,7 @@ description: "Review an existing instruction, prompt, or role file for quality a
 
 Review the target agent configuration file for quality, correctness, and consistency with the conventions of this repository.
 
-> **Scope:** The checklist below covers the *minimum* concerns to verify. Raise any issue you find — do not limit your review to what appears here.
+> **Scope:** The checklist below covers the _minimum_ concerns to verify. Raise any issue you find — do not limit your review to what appears here.
 
 ---
 
@@ -53,7 +53,7 @@ Review the target agent configuration file for quality, correctness, and consist
 
 ### Role Files (additional checks)
 
-- [ ] **Mindset over rules** — does the role define a *way of thinking*, not just a checklist?
+- [ ] **Mindset over rules** — does the role define a _way of thinking_, not just a checklist?
 - [ ] **Concrete behaviours** — does it list specific things the persona does differently from the default agent?
 - [ ] **Anti-behaviours** — does it list things the persona refuses to do or pushes back on?
 
@@ -62,6 +62,7 @@ Review the target agent configuration file for quality, correctness, and consist
 ## Output Format
 
 For each issue found, report:
+
 - **Severity**: Critical / Major / Minor / Suggestion
 - **Location**: Section or line reference
 - **Issue**: What is wrong or missing

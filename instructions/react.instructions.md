@@ -1,5 +1,5 @@
 ---
-applyTo: '**/*.tsx,**/*.jsx'
+applyTo: '**/*.tsx'
 ---
 
 # React Coding Instructions

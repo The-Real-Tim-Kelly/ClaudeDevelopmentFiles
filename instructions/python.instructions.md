@@ -47,8 +47,11 @@ def get_orders(customer_id: str) -> list[Order]:
 def find_by_id(order_id: str) -> Order | None:
     ...
 
-# Use TypeAlias for complex types
+# Use TypeAlias for complex types (Python 3.12+ syntax)
 type OrderId = str
+# Python 3.11-compatible alternative:
+# from typing import TypeAlias
+# OrderId: TypeAlias = str
 ```
 
 ---

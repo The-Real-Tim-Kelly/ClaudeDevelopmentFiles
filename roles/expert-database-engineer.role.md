@@ -71,7 +71,10 @@ Index priority order:
 6. Partial indexes where only a subset of rows is ever queried
 ```
 
-Use `EXPLAIN (ANALYZE)` / `EXPLAIN QUERY PLAN` / `SET STATISTICS IO ON` to verify index usage. Never assume — verify.
+Verify index usage before deploying — never assume. Use the tool appropriate for your database:
+- **PostgreSQL:** `EXPLAIN (ANALYZE, BUFFERS)`
+- **SQL Server:** `SET STATISTICS IO, TIME ON`
+- **SQLite:** `EXPLAIN QUERY PLAN`
 
 ---
 
@@ -95,7 +98,7 @@ Use `EXPLAIN (ANALYZE)` / `EXPLAIN QUERY PLAN` / `SET STATISTICS IO ON` to verif
 - Adding a nullable column
 - Adding a column with a default value
 - Adding a new table
-- Adding an index (preferably `CONCURRENTLY` / online)
+- Adding an index (PostgreSQL: `CREATE INDEX CONCURRENTLY`; SQL Server: `WITH (ONLINE = ON)`)
 - Adding a constraint that all existing data satisfies
 
 ### Breaking Changes (require a multi-step rollout)

@@ -171,10 +171,10 @@ All prompts work with both Claude and Copilot. Language-specific variants includ
 
 ### Agent Config
 
-| Prompt                                                                              | What It Does                                                   |
-| ----------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`generate-agent-config`](./prompts/generate-agent-config.prompt.md)               | Generate a new instruction, prompt, or role file for this repo |
-| [`review-agent-config`](./prompts/review-agent-config.prompt.md)                   | Review an existing agent config file for quality and gaps      |
+| Prompt                                                               | What It Does                                                   |
+| -------------------------------------------------------------------- | -------------------------------------------------------------- |
+| [`generate-agent-config`](./prompts/generate-agent-config.prompt.md) | Generate a new instruction, prompt, or role file for this repo |
+| [`review-agent-config`](./prompts/review-agent-config.prompt.md)     | Review an existing agent config file for quality and gaps      |
 
 ---
 
@@ -182,17 +182,17 @@ All prompts work with both Claude and Copilot. Language-specific variants includ
 
 Activate an expert persona for a specific task type. Combine with the relevant instruction file for maximum effect:
 
-| Role File                                                              | Persona                  | Best Used For                                    |
-| ---------------------------------------------------------------------- | ------------------------ | ------------------------------------------------ |
-| [`expert-software-engineer`](./roles/expert-software-engineer.role.md) | Senior Software Engineer | Production-grade implementation                  |
-| [`expert-code-reviewer`](./roles/expert-code-reviewer.role.md)         | Principal Code Reviewer  | Structured, adversarial code review              |
-| [`expert-test-engineer`](./roles/expert-test-engineer.role.md)         | Senior Test Engineer     | Thorough tests with edge cases and failure paths |
-| [`expert-security-reviewer`](./roles/expert-security-reviewer.role.md) | App Security Engineer    | OWASP Top 10 security audit                      |
-| [`expert-architect`](./roles/expert-architect.role.md)                 | Principal Architect      | Design decisions and trade-off analysis          |
-| [`expert-debugger`](./roles/expert-debugger.role.md)                   | Debugging Specialist     | Root cause analysis                              |
-| [`expert-refactorer`](./roles/expert-refactorer.role.md)               | Refactoring Specialist   | Behaviour-preserving structural improvements     |
-| [`expert-database-engineer`](./roles/expert-database-engineer.role.md) | Senior Database Engineer | Schema design, query review, migration safety    |
-| [`expert-agent-author`](./roles/expert-agent-author.role.md)           | Agent Config Author      | Writing new instruction, prompt, or role files   |
+| Role File                                                              | Persona                  | Best Used For                                     |
+| ---------------------------------------------------------------------- | ------------------------ | ------------------------------------------------- |
+| [`expert-software-engineer`](./roles/expert-software-engineer.role.md) | Senior Software Engineer | Production-grade implementation                   |
+| [`expert-code-reviewer`](./roles/expert-code-reviewer.role.md)         | Principal Code Reviewer  | Structured, adversarial code review               |
+| [`expert-test-engineer`](./roles/expert-test-engineer.role.md)         | Senior Test Engineer     | Thorough tests with edge cases and failure paths  |
+| [`expert-security-reviewer`](./roles/expert-security-reviewer.role.md) | App Security Engineer    | OWASP Top 10 security audit                       |
+| [`expert-architect`](./roles/expert-architect.role.md)                 | Principal Architect      | Design decisions and trade-off analysis           |
+| [`expert-debugger`](./roles/expert-debugger.role.md)                   | Debugging Specialist     | Root cause analysis                               |
+| [`expert-refactorer`](./roles/expert-refactorer.role.md)               | Refactoring Specialist   | Behaviour-preserving structural improvements      |
+| [`expert-database-engineer`](./roles/expert-database-engineer.role.md) | Senior Database Engineer | Schema design, query review, migration safety     |
+| [`expert-agent-author`](./roles/expert-agent-author.role.md)           | Agent Config Author      | Writing new instruction, prompt, or role files    |
 | [`expert-agent-reviewer`](./roles/expert-agent-reviewer.role.md)       | Agent Config Reviewer    | Reviewing agent config files for quality and gaps |
 
 **Example — security review with domain context:**

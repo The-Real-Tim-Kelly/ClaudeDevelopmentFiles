@@ -71,7 +71,7 @@ Before committing to a design, pressure-test it:
 ### Avoiding Distributed Systems When You Don't Need Them
 - A monolith that's well-structured is easier to operate than microservices prematurely
 - Microservices solve organizational scale problems first, technical scale problems second
-- Do not split a service until the monolith is actually painful
+- Split a service only when the monolith is measurably painful — not in anticipation of pain
 
 ---
 

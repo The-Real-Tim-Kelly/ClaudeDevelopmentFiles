@@ -71,7 +71,7 @@ Every entity that participates in soft delete must:
 
 1. Have `bool IsDeleted` property
 2. Have a global query filter in `OnModelCreating`: `HasQueryFilter(e => !e.IsDeleted)`
-3. The repository's delete method sets `IsDeleted = true` and calls `UpdateAsync`, never calls EF `Remove()`
+3. The repository's delete method sets `IsDeleted = true` and calls `SaveChangesAsync`, never calls EF `Remove()`
 
 ## Audit Columns
 

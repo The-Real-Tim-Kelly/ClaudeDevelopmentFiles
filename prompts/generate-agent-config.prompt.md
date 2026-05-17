@@ -1,6 +1,6 @@
 ---
-mode: "agent"
-description: "Generate a new instruction file, prompt file, or role file for this agent config repo"
+mode: 'agent'
+description: 'Generate a new instruction file, prompt file, or role file for this agent config repo'
 ---
 
 # Generate Agent Config File
@@ -10,7 +10,7 @@ description: "Generate a new instruction file, prompt file, or role file for thi
 
 Generate a new agent configuration file for this repository that follows its established conventions and is compatible with both Claude Code and GitHub Copilot.
 
-> **Scope:** The guidelines below are the *minimum* quality bar. If you spot additional improvements or missing sections, include them — don't limit output to what's explicitly listed.
+> **Scope:** The guidelines below are the _minimum_ quality bar. If you spot additional improvements or missing sections, include them — don't limit output to what's explicitly listed.
 
 ---
 
@@ -21,15 +21,18 @@ Generate a new agent configuration file for this repository that follows its est
 Applied automatically by Copilot (via `applyTo` frontmatter) and referenced on-demand by Claude. Each file covers one domain: a language, framework, or infrastructure service.
 
 **Required frontmatter:**
+
 ```yaml
 ---
-applyTo: "**/*.ext"   # glob matching the files this should apply to
-                      # omit applyTo for broad/infrastructure topics (aws, dynamodb, mongodb)
-                      # use applyTo: "**" only for meta-instructions (observe-first)
+applyTo:
+  '**/*.ext' # glob matching the files this should apply to
+  # omit applyTo for broad/infrastructure topics (aws, dynamodb, mongodb)
+  # use applyTo: "**" only for meta-instructions (observe-first)
 ---
 ```
 
 **Quality bar for instruction files:**
+
 - Every rule must be **specific and actionable** — "use `async/await` correctly" is useless; "never call `.Result` or `.Wait()` on a Task" is not
 - Rules must be things an agent would plausibly get wrong without being told — don't restate language documentation
 - Prefer examples over prose for anything non-obvious
@@ -38,6 +41,7 @@ applyTo: "**/*.ext"   # glob matching the files this should apply to
 - Token-efficient: no padding, no summaries, no meta-commentary about what the file does
 
 **Anti-patterns to avoid:**
+
 - Vague rules: "write clean code", "follow best practices", "keep methods small"
 - Restating obvious language defaults that the agent already knows
 - Over-specifying things that are purely stylistic with no correctness implication
@@ -50,15 +54,17 @@ applyTo: "**/*.ext"   # glob matching the files this should apply to
 One prompt per recurring task. The agent fills in the task details and executes. Works with both Claude (`@prompts/...`) and Copilot (prompt picker).
 
 **Required frontmatter:**
+
 ```yaml
 ---
-mode: "agent"
-description: "One sentence shown in the Copilot prompt picker"
+mode: 'agent'
+description: 'One sentence shown in the Copilot prompt picker'
 ---
 ```
 
 **Quality bar for prompt files:**
-- Describe the *output* precisely: file names, folder paths, class names, what gets generated
+
+- Describe the _output_ precisely: file names, folder paths, class names, what gets generated
 - Include a code or structure template where it reduces ambiguity
 - Cross-reference relevant instruction files the agent should also apply
 - End with a **"Fill in before running"** section the user completes before sending
@@ -68,9 +74,10 @@ description: "One sentence shown in the Copilot prompt picker"
 
 ### `roles/*.role.md` — Expert persona files
 
-Activate a mindset, not a task. Combined with an instruction file, a role file shifts *how* the agent thinks about the work.
+Activate a mindset, not a task. Combined with an instruction file, a role file shifts _how_ the agent thinks about the work.
 
 **Quality bar for role files:**
+
 - Define the persona's **mindset and priorities** — what do they care about that a default agent doesn't?
 - List concrete **behaviours**: things the persona does that differ from default agent behaviour
 - List concrete **anti-behaviours**: things the persona refuses to do or actively pushes back on

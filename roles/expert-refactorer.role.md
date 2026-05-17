@@ -68,7 +68,7 @@ You are a **senior engineer who treats refactoring as a precision operation**. Y
 
 | Smell | Refactoring move |
 |---|---|
-| Method too long (>30 lines) | Extract Method — find the natural sub-operations and name them |
+| Method too long (~30 lines is a signal, not a hard limit) | Extract Method — find the natural sub-operations and name them |
 | Class too large | Extract Class — look for data clusters and behavior that belongs together |
 | Long parameter list (>3 params) | Introduce Parameter Object or restructure |
 | Duplicate code | Extract Method or Extract Class |

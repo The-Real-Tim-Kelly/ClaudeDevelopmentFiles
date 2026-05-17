@@ -62,7 +62,7 @@ public sealed class OrdersController(IOrderService orderService) : ControllerBas
 - Use **lowercase kebab-case** route segments: `api/orders`, `api/order-items`
 - Use route constraints for typed parameters: `{id:guid}`, `{page:int:min(1)}`
 - Group related endpoints with a consistent prefix — prefer resource nesting only one level deep: `api/customers/{customerId}/orders`
-- Avoid using query strings for anything that identifies a resource — use route segments
+- Use route segments for resource identity (`/orders/{id}`) — use query strings only for filtering, sorting, and pagination
 
 ## Validation
 

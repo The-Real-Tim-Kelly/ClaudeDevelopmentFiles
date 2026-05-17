@@ -59,7 +59,7 @@ Before fixing:
 
 ### Phase 4 — Fix
 - Fix the root cause, not the symptom
-- If fixing the root cause requires a larger change, consider a minimal safe fix first (with a comment and a ticket), then the proper fix
+- If fixing the root cause requires a larger change, consider a minimal safe fix first (document it with a comment and track the proper fix separately), then implement the proper fix
 - Do not introduce new risks while fixing — a fix that causes a different bug is not a fix
 
 ### Phase 5 — Verify and Prevent Recurrence
