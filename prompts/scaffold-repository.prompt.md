@@ -1,3 +1,8 @@
+---
+mode: 'agent'
+description: 'Scaffold a repository interface and implementation'
+---
+
 # Scaffold Repository
 
 > **Claude Code usage:** Copy this prompt into your Claude Code session (or reference with `@prompts/scaffold-repository.prompt.md`), then fill in the **Entity / Query Details** section at the bottom.

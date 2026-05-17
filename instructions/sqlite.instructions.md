@@ -1,3 +1,7 @@
+---
+applyTo: '**/*.sql'
+---
+
 # SQLite Coding Instructions
 
 > **Claude Code:** Reference this file with `@instructions/sqlite.instructions.md` when working with SQLite.
@@ -7,12 +11,14 @@
 ## When to Use SQLite
 
 SQLite is appropriate for:
+
 - Local/embedded applications, desktop apps, mobile apps
 - Development and test environments (as a lightweight alternative to a server DB)
 - Read-heavy applications with low write concurrency
 - Edge deployments, CLI tools, small-scale services (Cloudflare D1, Turso, etc.)
 
 SQLite is **not appropriate** for:
+
 - High-concurrency write workloads (multiple processes/threads writing simultaneously at scale)
 - Applications requiring fine-grained access control at the database level
 - Situations where the database file must be accessed over a network by multiple clients
@@ -56,31 +62,36 @@ This applies regardless of whether the input comes from a user, a config file, o
 ## Schema Design
 
 ### Naming
+
 - Table names: **`snake_case`**, singular noun — `order`, `customer`, `product_variant`
 - Column names: **`snake_case`** — `customer_id`, `created_at`, `is_deleted`
 - Index names: `idx_<table>_<column(s)>` — `idx_order_customer_id`
 
 ### Data Types (SQLite Storage Classes)
+
 SQLite uses flexible typing. Use these conventions for clarity:
 
-| Intent | SQLite convention |
-|---|---|
-| Auto-increment integer PK | `INTEGER PRIMARY KEY` (becomes rowid alias — very fast) |
-| UUID / string ID | `TEXT NOT NULL` |
-| Boolean | `INTEGER NOT NULL DEFAULT 0` (0 = false, 1 = true) |
-| Date/time | `TEXT NOT NULL` — store as ISO-8601: `2026-05-16T10:00:00Z` |
-| Decimal/money | `INTEGER` (store as cents/minor unit) — avoid `REAL` for money |
-| Large text | `TEXT` |
-| Binary data | `BLOB` |
+| Intent                    | SQLite convention                                              |
+| ------------------------- | -------------------------------------------------------------- |
+| Auto-increment integer PK | `INTEGER PRIMARY KEY` (becomes rowid alias — very fast)        |
+| UUID / string ID          | `TEXT NOT NULL`                                                |
+| Boolean                   | `INTEGER NOT NULL DEFAULT 0` (0 = false, 1 = true)             |
+| Date/time                 | `TEXT NOT NULL` — store as ISO-8601: `2026-05-16T10:00:00Z`    |
+| Decimal/money             | `INTEGER` (store as cents/minor unit) — avoid `REAL` for money |
+| Large text                | `TEXT`                                                         |
+| Binary data               | `BLOB`                                                         |
 
 ### Required Columns
+
 Every table should have:
+
 ```sql
 created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
 updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 ```
 
 Use a trigger to keep `updated_at` current:
+
 ```sql
 CREATE TRIGGER update_order_updated_at
 AFTER UPDATE ON "order"

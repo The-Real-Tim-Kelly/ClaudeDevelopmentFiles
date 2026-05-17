@@ -1,3 +1,7 @@
+---
+applyTo: '**/*.tsx,**/*.jsx'
+---
+
 # React Coding Instructions
 
 > **Claude Code:** Reference this file with `@instructions/react.instructions.md` when working on React code.
@@ -15,14 +19,14 @@
 
 ## Naming Conventions
 
-| Element | Convention | Example |
-|---|---|---|
-| Components | PascalCase | `OrderCard`, `CustomerDashboard` |
-| Hooks | `use` prefix + camelCase | `useOrderData`, `useAuth` |
-| Event handlers | `handle` prefix | `handleSubmit`, `handleOrderSelect` |
-| Props interfaces | `<Component>Props` | `OrderCardProps` |
-| Files (components) | PascalCase | `OrderCard.tsx` |
-| Files (hooks, utils) | camelCase | `useOrderData.ts`, `formatCurrency.ts` |
+| Element              | Convention               | Example                                |
+| -------------------- | ------------------------ | -------------------------------------- |
+| Components           | PascalCase               | `OrderCard`, `CustomerDashboard`       |
+| Hooks                | `use` prefix + camelCase | `useOrderData`, `useAuth`              |
+| Event handlers       | `handle` prefix          | `handleSubmit`, `handleOrderSelect`    |
+| Props interfaces     | `<Component>Props`       | `OrderCardProps`                       |
+| Files (components)   | PascalCase               | `OrderCard.tsx`                        |
+| Files (hooks, utils) | camelCase                | `useOrderData.ts`, `formatCurrency.ts` |
 
 ---
 
@@ -30,9 +34,9 @@
 
 ```tsx
 // 1. Imports (external → internal → types)
-import { useState, useEffect } from "react";
-import { Order } from "@/types/order";
-import { formatCurrency } from "@/utils/format";
+import { useState, useEffect } from 'react';
+import { Order } from '@/types/order';
+import { formatCurrency } from '@/utils/format';
 
 // 2. Props interface
 interface OrderCardProps {
@@ -77,12 +81,17 @@ function useOrderById(id: string) {
 
   useEffect(() => {
     let cancelled = false;
-    orderApi.getById(id).then((data) => {
-      if (!cancelled) setOrder(data);
-    }).finally(() => {
-      if (!cancelled) setLoading(false);
-    });
-    return () => { cancelled = true; };   // cleanup prevents state update on unmount
+    orderApi
+      .getById(id)
+      .then((data) => {
+        if (!cancelled) setOrder(data);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    }; // cleanup prevents state update on unmount
   }, [id]);
 
   return { order, loading };
@@ -104,16 +113,21 @@ function useOrderById(id: string) {
 ## Data Fetching
 
 Use **TanStack Query** for all server-state management:
+
 ```tsx
-const { data: orders, isLoading, error } = useQuery({
-  queryKey: ["orders", customerId],
+const {
+  data: orders,
+  isLoading,
+  error,
+} = useQuery({
+  queryKey: ['orders', customerId],
   queryFn: () => orderApi.getByCustomer(customerId),
-  staleTime: 1000 * 60,  // 1 minute
+  staleTime: 1000 * 60, // 1 minute
 });
 
 const mutation = useMutation({
   mutationFn: (req: CreateOrderRequest) => orderApi.create(req),
-  onSuccess: () => queryClient.invalidateQueries({ queryKey: ["orders"] }),
+  onSuccess: () => queryClient.invalidateQueries({ queryKey: ['orders'] }),
 });
 ```
 
@@ -130,7 +144,7 @@ const mutation = useMutation({
 - Keep types co-located with what uses them, or in `src/types/` for shared domain types
 - Use `satisfies` operator to validate against a type without widening:
   ```ts
-  const config = { apiUrl: "/api", timeout: 5000 } satisfies AppConfig;
+  const config = { apiUrl: '/api', timeout: 5000 } satisfies AppConfig;
   ```
 
 ---
@@ -153,9 +167,9 @@ const mutation = useMutation({
 - Do not test implementation details (internal state, private methods)
 
 ```tsx
-test("displays order total when order loads", async () => {
+test('displays order total when order loads', async () => {
   render(<OrderCard order={mockOrder} onSelect={vi.fn()} />);
-  expect(await screen.findByText("$120.00")).toBeInTheDocument();
+  expect(await screen.findByText('$120.00')).toBeInTheDocument();
 });
 ```
 

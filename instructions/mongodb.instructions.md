@@ -1,3 +1,7 @@
+---
+# No applyTo: reference manually with #file: when working with MongoDB
+---
+
 # MongoDB Coding Instructions
 
 > **Claude Code:** Reference this file with `@instructions/mongodb.instructions.md` when working with MongoDB.
@@ -18,11 +22,13 @@
 ### Embed vs Reference
 
 **Embed** when:
+
 - The data is accessed together almost all of the time
 - The subdocument has no independent lifecycle (it only exists within the parent)
 - The array length is bounded and small (< a few hundred items)
 
 **Reference** when:
+
 - The related document is large and not always needed
 - The related document has its own lifecycle (queried, updated independently)
 - The relationship is many-to-many
@@ -58,20 +64,20 @@ Always use **`ISODate` / `Date` BSON type** for timestamps — never store dates
 Enforce structure with JSON Schema validation at the collection level:
 
 ```js
-db.createCollection("orders", {
+db.createCollection('orders', {
   validator: {
     $jsonSchema: {
-      bsonType: "object",
-      required: ["customerId", "items", "status", "total", "createdAt"],
+      bsonType: 'object',
+      required: ['customerId', 'items', 'status', 'total', 'createdAt'],
       properties: {
-        customerId: { bsonType: "objectId" },
-        status:     { enum: ["pending", "shipped", "delivered", "cancelled"] },
-        total:      { bsonType: "decimal" },
-        items:      { bsonType: "array", minItems: 1 }
-      }
-    }
+        customerId: { bsonType: 'objectId' },
+        status: { enum: ['pending', 'shipped', 'delivered', 'cancelled'] },
+        total: { bsonType: 'decimal' },
+        items: { bsonType: 'array', minItems: 1 },
+      },
+    },
   },
-  validationAction: "error"   // reject invalid documents
+  validationAction: 'error', // reject invalid documents
 });
 ```
 
@@ -80,6 +86,7 @@ db.createCollection("orders", {
 ## Indexing — Critical
 
 MongoDB will **table-scan** any query without a supporting index. Always index:
+
 - Fields used in `find()` filter conditions
 - Fields used in `sort()`
 - High-cardinality fields used in equality lookups
@@ -91,16 +98,20 @@ db.orders.createIndex({ customerId: 1, createdAt: -1 });
 // Partial index — only index active (non-deleted) documents
 db.orders.createIndex(
   { customerId: 1 },
-  { partialFilterExpression: { isDeleted: { $ne: true } } }
+  { partialFilterExpression: { isDeleted: { $ne: true } } },
 );
 
 // Text index for full-text search
-db.products.createIndex({ name: "text", description: "text" });
+db.products.createIndex({ name: 'text', description: 'text' });
 ```
 
 Use `explain("executionStats")` to verify a query uses your index:
+
 ```js
-db.orders.find({ customerId: id }).sort({ createdAt: -1 }).explain("executionStats");
+db.orders
+  .find({ customerId: id })
+  .sort({ createdAt: -1 })
+  .explain('executionStats');
 ```
 
 ---
@@ -109,10 +120,13 @@ db.orders.find({ customerId: id }).sort({ createdAt: -1 }).explain("executionSta
 
 ```js
 // Always project only the fields you need
-db.orders.find(
-  { customerId: ObjectId("..."), isDeleted: { $ne: true } },
-  { _id: 1, status: 1, total: 1, createdAt: 1 }
-).sort({ createdAt: -1 }).limit(20);
+db.orders
+  .find(
+    { customerId: ObjectId('...'), isDeleted: { $ne: true } },
+    { _id: 1, status: 1, total: 1, createdAt: 1 },
+  )
+  .sort({ createdAt: -1 })
+  .limit(20);
 ```
 
 - **Never** use `find({})` on a large collection without a filter and limit
@@ -127,10 +141,10 @@ Use the aggregation pipeline for complex queries; avoid multiple round-trips:
 
 ```js
 db.orders.aggregate([
-  { $match: { customerId: ObjectId("..."), isDeleted: { $ne: true } } },
-  { $sort:  { createdAt: -1 } },
+  { $match: { customerId: ObjectId('...'), isDeleted: { $ne: true } } },
+  { $sort: { createdAt: -1 } },
   { $limit: 20 },
-  { $project: { status: 1, total: 1, createdAt: 1 } }
+  { $project: { status: 1, total: 1, createdAt: 1 } },
 ]);
 ```
 
@@ -141,23 +155,25 @@ Stage order matters for performance: `$match` and `$sort` should come first to u
 ## Writes
 
 ### Upsert
+
 ```js
 db.customers.updateOne(
-  { email: "user@example.com" },
+  { email: 'user@example.com' },
   {
-    $set:         { name: "Tim Kelly", updatedAt: new Date() },
-    $setOnInsert: { createdAt: new Date() }
+    $set: { name: 'Tim Kelly', updatedAt: new Date() },
+    $setOnInsert: { createdAt: new Date() },
   },
-  { upsert: true }
+  { upsert: true },
 );
 ```
 
 ### Atomic Updates — Use Update Operators, Not Full Replacement
+
 ```js
 // Good — atomic field update
 db.orders.updateOne(
-  { _id: orderId, status: "pending" },   // condition prevents overwriting wrong state
-  { $set: { status: "shipped", updatedAt: new Date() } }
+  { _id: orderId, status: 'pending' }, // condition prevents overwriting wrong state
+  { $set: { status: 'shipped', updatedAt: new Date() } },
 );
 
 // Avoid — replaces entire document, loses fields not included
@@ -177,7 +193,11 @@ const session = client.startSession();
 try {
   session.startTransaction();
   await orders.insertOne(order, { session });
-  await inventory.updateOne({ productId }, { $inc: { stock: -1 } }, { session });
+  await inventory.updateOne(
+    { productId },
+    { $inc: { stock: -1 } },
+    { session },
+  );
   await session.commitTransaction();
 } catch (err) {
   await session.abortTransaction();
@@ -197,7 +217,7 @@ Use transactions only when you **need** cross-document atomicity — they carry 
 // Mark deleted — never hard delete unless data retention policy requires it
 db.orders.updateOne(
   { _id: orderId },
-  { $set: { isDeleted: true, deletedAt: new Date(), updatedAt: new Date() } }
+  { $set: { isDeleted: true, deletedAt: new Date(), updatedAt: new Date() } },
 );
 
 // Always exclude in queries

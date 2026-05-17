@@ -1,3 +1,7 @@
+---
+applyTo: '**/*.cs'
+---
+
 # ASP.NET Core API Instructions
 
 > **Claude Code:** Reference this file with `@instructions/aspnetcore.instructions.md` when working on controllers, endpoints, middleware, or API project setup.

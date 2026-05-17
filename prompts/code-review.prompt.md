@@ -1,55 +1,62 @@
+---
+mode: 'agent'
+description: 'Run a structured code review on any file — language-agnostic'
+---
+
 # Code Review
 
-> **Claude Code usage:** Reference this with `@prompts/code-review.prompt.md` and include the file(s) to review in the same message, e.g. `@prompts/code-review.prompt.md @src/MyService.cs`.
+> **Claude Code usage:** Reference with `@prompts/code-review.prompt.md` and include the file(s) to review, e.g. `@prompts/code-review.prompt.md @src/order_service.py`.
+> For deeper, stack-specific checks use a language-specific variant:
+> `code-review-dotnet.prompt.md` · `code-review-java.prompt.md` · `code-review-react.prompt.md` · `code-review-python.prompt.md`
 
-Perform a structured code review focused on correctness, architecture compliance, security, and .NET best practices.
+Perform a structured code review focused on correctness, architecture compliance, and security. Apply the idioms and conventions of whatever language and framework the code uses.
+
+> **Scope:** The checklist below covers the _minimum_ concerns to verify. Do not limit your review to these items — raise any issue you find, regardless of whether it appears in the list.
 
 ## Review Checklist
 
 ### Architecture & Design
-- [ ] **Layer violations** — Is EF/DynamoDB context injected anywhere outside of a repository?
-- [ ] **Controller thickness** — Does the controller contain business logic that belongs in a service?
-- [ ] **Interface dependency** — Are all dependencies injected via interface, not concrete type?
-- [ ] **Single responsibility** — Does each class/method do one thing?
-- [ ] **Configuration access** — Is `IConfiguration` used directly in a service (should use `IOptions<T>`)?
 
-### C# Quality
-- [ ] **Null safety** — Are nullable warnings handled properly without `!` suppression?
-- [ ] **Async correctness** — Any `.Result` or `.Wait()` calls? Missing `await`? Fire-and-forget without handling?
-- [ ] **CancellationToken** — Is `ct` propagated to all downstream async calls?
-- [ ] **Naming** — Are conventions (PascalCase, camelCase, `_camelCase`, `Async` suffix) followed?
-- [ ] **LINQ** — Any N+1 risks from iterating an IQueryable after breaking out of the query?
+- [ ] **Layer violations** — Is any infrastructure concern (DB, HTTP client, queue) used directly in a layer where it doesn't belong?
+- [ ] **Component thickness** — Does this unit do more than one thing? Should any logic be extracted?
+- [ ] **Dependency direction** — Are dependencies injected via abstraction rather than concrete types?
+- [ ] **Single responsibility** — Does each function/method do one clearly defined thing?
+- [ ] **Configuration** — Are environment-specific values read from config/env vars, not hardcoded?
 
-### Entity Framework
-- [ ] **Async methods** — Any synchronous EF calls (`.ToList()`, `.FirstOrDefault()`)?
-- [ ] **Tracking** — Are read-only queries using `.AsNoTracking()`?
-- [ ] **Eager loading** — Are navigation properties always `.Include()`d before access?
-- [ ] **Raw SQL** — Is any raw SQL parameterized? No string interpolation into SQL?
-- [ ] **SaveChanges scope** — Is `SaveChangesAsync` called at the right level (repository, not service)?
+### Code Quality
 
-### DynamoDB
-- [ ] **Table scan** — Is `ScanAsync` called anywhere? (Should always be a query)
-- [ ] **Hardcoded table names** — Are table/index names from config, not literals?
-- [ ] **Access pattern comment** — Is there a comment above each query explaining its access pattern?
-- [ ] **Condition expressions** — Are writes protected against overwriting with condition expressions?
-- [ ] **Error handling** — Is `ConditionalCheckFailedException` caught and handled appropriately?
+- [ ] **Null / nil safety** — Are nullable or optional values checked before use?
+- [ ] **Async correctness** — Is async/await used correctly? Any blocking calls inside async code?
+- [ ] **Error handling** — Are errors caught at the right level? Are exceptions silently swallowed?
+- [ ] **Naming** — Do names follow the conventions of the language and existing codebase?
+- [ ] **Dead code** — Are there unused variables, imports, parameters, or unreachable branches?
+
+### Data Access
+
+- [ ] **Query safety** — Is any query built with string concatenation from user input?
+- [ ] **N+1 queries** — Are related records fetched in loops instead of a single query?
+- [ ] **Unbounded results** — Are queries missing pagination or limits on large result sets?
+- [ ] **Transaction scope** — Are writes that must succeed together wrapped in a transaction?
 
 ### Security
-- [ ] **SQL injection** — Is any SQL built with string concatenation or interpolation?
-- [ ] **Logging sensitive data** — Are PII, tokens, or credentials logged anywhere?
-- [ ] **Secrets in code** — Are any credentials, API keys, or connection strings hardcoded?
-- [ ] **Input validation** — Is all user input validated before use (FluentValidation at API boundary)?
-- [ ] **Unhandled exceptions** — Could any exception leak internal details to the HTTP response?
 
-### Testing Coverage (if test file)
-- [ ] Is the SUT constructed from mocks, not mocked itself?
+- [ ] **Injection** — Is user input concatenated into SQL, shell commands, HTML, or template strings?
+- [ ] **Sensitive data logged** — Are PII, tokens, passwords, or keys written to logs?
+- [ ] **Hardcoded secrets** — Any credentials or API keys in source?
+- [ ] **Input validation** — Is all user input validated at the system boundary before use?
+- [ ] **Error leakage** — Could an unhandled exception expose internal details to the caller?
+
+### Testing (if test file)
+
+- [ ] Is the system under test constructed from real/mocked dependencies — never mocked itself?
 - [ ] Does each test have a clear Arrange / Act / Assert structure?
-- [ ] Are edge cases and exception paths tested?
-- [ ] Are `[Theory]` tests used for boundary/parameterized cases?
+- [ ] Are edge cases and exception paths covered?
+- [ ] Are parameterized tests used for logic that varies across inputs?
 
 ## Output Format
 
 For each issue found, report:
+
 - **Severity**: Critical / Major / Minor / Suggestion
 - **File + Line**: Reference to the specific code
 - **Issue**: Clear description of the problem
@@ -57,10 +64,10 @@ For each issue found, report:
 
 ## Code to Review
 
-**Include the file(s) to review alongside this prompt**, for example:
+Include the file(s) to review alongside this prompt:
 
 ```
-@prompts/code-review.prompt.md @src/MyApp.Infrastructure/Repositories/OrderRepository.cs
+@prompts/code-review.prompt.md @src/order_service.py
 ```
 
 Or describe what to focus on if reviewing a specific concern rather than a full file.

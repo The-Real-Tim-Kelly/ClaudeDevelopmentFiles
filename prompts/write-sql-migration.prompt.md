@@ -1,3 +1,8 @@
+---
+mode: 'agent'
+description: 'Generate an EF Core migration script for a schema change'
+---
+
 # Write EF Core Migration
 
 > **Claude Code usage:** Copy this prompt into your Claude Code session (or reference with `@prompts/write-sql-migration.prompt.md`), then fill in the **Schema Change Description** section at the bottom.
@@ -23,6 +28,7 @@ Describe the schema change you need and this prompt will guide the agent to prod
 ## Common Migration Patterns
 
 ### Add a new column
+
 ```csharp
 migrationBuilder.AddColumn<string>(
     name: "Email",
@@ -34,6 +40,7 @@ migrationBuilder.AddColumn<string>(
 ```
 
 ### Add an index
+
 ```csharp
 migrationBuilder.CreateIndex(
     name: "IX_Order_CustomerId",
@@ -43,6 +50,7 @@ migrationBuilder.CreateIndex(
 ```
 
 ### Safe rename (two-migration approach)
+
 ```csharp
 // Migration 1: Add new column
 migrationBuilder.AddColumn<string>(name: "NewName", ...);

@@ -1,3 +1,7 @@
+---
+applyTo: '**/*.go'
+---
+
 # Go Coding Instructions
 
 > **Claude Code:** Reference this file with `@instructions/go.instructions.md` when working on Go code.

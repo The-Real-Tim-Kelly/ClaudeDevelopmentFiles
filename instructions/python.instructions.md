@@ -1,3 +1,7 @@
+---
+applyTo: '**/*.py'
+---
+
 # Python Coding Instructions
 
 > **Claude Code:** Reference this file with `@instructions/python.instructions.md` when working on Python code.
@@ -15,14 +19,14 @@
 
 ## Naming Conventions
 
-| Element | Convention | Example |
-|---|---|---|
-| Modules, packages | `snake_case` | `order_service.py`, `user_repository` |
-| Functions, methods, variables | `snake_case` | `get_order_by_id`, `customer_id` |
-| Classes | `PascalCase` | `OrderService`, `PaymentProcessor` |
-| Constants | `UPPER_SNAKE_CASE` | `MAX_RETRY_COUNT` |
-| "Private" (internal) identifiers | `_single_underscore` prefix | `_validate_payload` |
-| Type variables | `PascalCase` | `T`, `TEntity` |
+| Element                          | Convention                  | Example                               |
+| -------------------------------- | --------------------------- | ------------------------------------- |
+| Modules, packages                | `snake_case`                | `order_service.py`, `user_repository` |
+| Functions, methods, variables    | `snake_case`                | `get_order_by_id`, `customer_id`      |
+| Classes                          | `PascalCase`                | `OrderService`, `PaymentProcessor`    |
+| Constants                        | `UPPER_SNAKE_CASE`          | `MAX_RETRY_COUNT`                     |
+| "Private" (internal) identifiers | `_single_underscore` prefix | `_validate_payload`                   |
+| Type variables                   | `PascalCase`                | `T`, `TEntity`                        |
 
 ---
 
@@ -52,6 +56,7 @@ type OrderId = str
 ## Classes & Data Models
 
 - Use **`dataclasses`** for simple data carriers:
+
   ```python
   from dataclasses import dataclass, field
 
@@ -62,6 +67,7 @@ type OrderId = str
   ```
 
 - Use **Pydantic `BaseModel`** when you need validation, serialization, or JSON schema (API requests/responses):
+
   ```python
   from pydantic import BaseModel, EmailStr, field_validator
 
@@ -78,6 +84,7 @@ type OrderId = str
   ```
 
 - Use **`enum.Enum`** for fixed value sets:
+
   ```python
   from enum import Enum
 

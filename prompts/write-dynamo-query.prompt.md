@@ -1,3 +1,8 @@
+---
+mode: 'agent'
+description: 'Write a type-safe DynamoDB query with GSI and pagination support'
+---
+
 # Write DynamoDB Query
 
 > **Claude Code usage:** Copy this prompt into your Claude Code session (or reference with `@prompts/write-dynamo-query.prompt.md`), then fill in the **Query Details** section at the bottom.
@@ -18,14 +23,14 @@ Generate a correct, production-safe DynamoDB query using the project's AWS SDK c
 
 ## Query Type Guide
 
-| Scenario | Method |
-|---|---|
-| Get one item by PK + SK | `context.LoadAsync<T>(pk, sk, ct)` |
-| Get all items for a PK | `context.QueryAsync<T>(pk, config)` |
-| Get items by PK where SK begins with prefix | `QueryAsync` + `QueryOperator.BeginsWith` |
-| Get items by GSI | `QueryAsync` + `DynamoDBOperationConfig { IndexName = "..." }` |
-| Get multiple known keys | `context.CreateBatchGet<T>()` then `ExecuteBatchGetAsync` |
-| Write multiple items | `context.CreateBatchWrite<T>()` then `ExecuteBatchWriteAsync` |
+| Scenario                                    | Method                                                         |
+| ------------------------------------------- | -------------------------------------------------------------- |
+| Get one item by PK + SK                     | `context.LoadAsync<T>(pk, sk, ct)`                             |
+| Get all items for a PK                      | `context.QueryAsync<T>(pk, config)`                            |
+| Get items by PK where SK begins with prefix | `QueryAsync` + `QueryOperator.BeginsWith`                      |
+| Get items by GSI                            | `QueryAsync` + `DynamoDBOperationConfig { IndexName = "..." }` |
+| Get multiple known keys                     | `context.CreateBatchGet<T>()` then `ExecuteBatchGetAsync`      |
+| Write multiple items                        | `context.CreateBatchWrite<T>()` then `ExecuteBatchWriteAsync`  |
 
 ## Key Design Reminders
 

@@ -1,3 +1,7 @@
+---
+applyTo: '**/*.cs'
+---
+
 # C# Coding Instructions
 
 > **Claude Code:** Reference this file with `@instructions/csharp.instructions.md` in your session, or drag it into the chat window for focused C# work.

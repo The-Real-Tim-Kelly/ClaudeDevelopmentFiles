@@ -1,3 +1,7 @@
+---
+applyTo: '**/*.sql'
+---
+
 # PostgreSQL Coding Instructions
 
 > **Claude Code:** Reference this file with `@instructions/postgres.instructions.md` when working with PostgreSQL.
@@ -17,19 +21,19 @@
 
 ## Data Types — Prefer These
 
-| Intent | Type |
-|---|---|
+| Intent               | Type                                                                        |
+| -------------------- | --------------------------------------------------------------------------- |
 | Variable-length text | `TEXT` — no need for `VARCHAR(n)` in Postgres; `TEXT` is equally performant |
-| Fixed-length codes | `CHAR(n)` only for truly fixed-length (e.g., ISO country codes) |
-| Timestamps | `TIMESTAMPTZ` (timestamp with time zone) — **always**, never `TIMESTAMP` |
-| Dates only | `DATE` |
-| Boolean | `BOOLEAN` |
-| Integer IDs | `BIGINT` (or `BIGSERIAL` for auto-increment) |
-| UUIDs | `UUID` — use `gen_random_uuid()` (pgcrypto / pg 13+ built-in) |
-| Money / decimal | `NUMERIC(p, s)` — never `FLOAT` or `DOUBLE PRECISION` for financial values |
-| JSON documents | `JSONB` (binary, indexable) — not `JSON` |
-| Arrays | Native array types (`TEXT[]`, `INT[]`) for simple lists |
-| Enum-like values | `TEXT` + `CHECK` constraint, or a Postgres `ENUM` type |
+| Fixed-length codes   | `CHAR(n)` only for truly fixed-length (e.g., ISO country codes)             |
+| Timestamps           | `TIMESTAMPTZ` (timestamp with time zone) — **always**, never `TIMESTAMP`    |
+| Dates only           | `DATE`                                                                      |
+| Boolean              | `BOOLEAN`                                                                   |
+| Integer IDs          | `BIGINT` (or `BIGSERIAL` for auto-increment)                                |
+| UUIDs                | `UUID` — use `gen_random_uuid()` (pgcrypto / pg 13+ built-in)               |
+| Money / decimal      | `NUMERIC(p, s)` — never `FLOAT` or `DOUBLE PRECISION` for financial values  |
+| JSON documents       | `JSONB` (binary, indexable) — not `JSON`                                    |
+| Arrays               | Native array types (`TEXT[]`, `INT[]`) for simple lists                     |
+| Enum-like values     | `TEXT` + `CHECK` constraint, or a Postgres `ENUM` type                      |
 
 ---
 
@@ -113,12 +117,14 @@ This applies regardless of the calling language or ORM. Never build SQL strings 
 ## Common Patterns
 
 ### Soft Delete
+
 ```sql
 ALTER TABLE "order" ADD COLUMN is_deleted BOOLEAN NOT NULL DEFAULT FALSE;
 CREATE INDEX idx_order_not_deleted ON "order" (customer_id) WHERE is_deleted = FALSE;
 ```
 
 ### Upsert
+
 ```sql
 INSERT INTO customer (id, email, name)
 VALUES ($1, $2, $3)
@@ -128,6 +134,7 @@ ON CONFLICT (email) DO UPDATE
 ```
 
 ### Pagination (keyset — prefer over OFFSET for large tables)
+
 ```sql
 SELECT id, created_at, total
 FROM "order"

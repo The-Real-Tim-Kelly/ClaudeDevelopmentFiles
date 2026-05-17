@@ -1,3 +1,7 @@
+---
+# No applyTo: reference manually with #file: when working with AWS services
+---
+
 # AWS Services Instructions (S3, SQS, SNS)
 
 > **Claude Code:** Reference this file with `@instructions/aws.instructions.md` when working on S3, SQS, or SNS integrations. For DynamoDB, use `@instructions/dynamodb.instructions.md` instead.

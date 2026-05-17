@@ -1,3 +1,7 @@
+---
+applyTo: '**/*.cs'
+---
+
 # FluentValidation Instructions
 
 > **Claude Code:** Reference this file with `@instructions/fluentvalidation.instructions.md` when creating or reviewing FluentValidation validators.

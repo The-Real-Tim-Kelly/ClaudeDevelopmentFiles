@@ -1,3 +1,8 @@
+---
+mode: 'agent'
+description: 'Scaffold an EF Core entity with Fluent configuration'
+---
+
 # Scaffold EF Core Entity
 
 > **Claude Code usage:** Copy this prompt into your Claude Code session (or reference with `@prompts/scaffold-ef-entity.prompt.md`), then fill in the **Entity Description** section at the bottom.

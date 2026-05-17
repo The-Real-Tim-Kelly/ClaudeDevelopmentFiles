@@ -1,3 +1,7 @@
+---
+applyTo: '**/*.java'
+---
+
 # Java Coding Instructions
 
 > **Claude Code:** Reference this file with `@instructions/java.instructions.md` when working on Java code.
@@ -14,13 +18,13 @@
 
 ## Naming Conventions
 
-| Element | Convention | Example |
-|---|---|---|
-| Classes, interfaces, enums, records | PascalCase | `OrderService`, `PaymentStatus` |
-| Methods, local variables, parameters | camelCase | `findById`, `orderId` |
-| Constants (`static final`) | UPPER_SNAKE_CASE | `MAX_RETRY_COUNT` |
-| Packages | lowercase, dot-separated | `com.myapp.domain.order` |
-| Generic type parameters | Single uppercase letter, or `T`-prefixed noun | `T`, `K`, `V`, `TEntity` |
+| Element                              | Convention                                    | Example                         |
+| ------------------------------------ | --------------------------------------------- | ------------------------------- |
+| Classes, interfaces, enums, records  | PascalCase                                    | `OrderService`, `PaymentStatus` |
+| Methods, local variables, parameters | camelCase                                     | `findById`, `orderId`           |
+| Constants (`static final`)           | UPPER_SNAKE_CASE                              | `MAX_RETRY_COUNT`               |
+| Packages                             | lowercase, dot-separated                      | `com.myapp.domain.order`        |
+| Generic type parameters              | Single uppercase letter, or `T`-prefixed noun | `T`, `K`, `V`, `TEntity`        |
 
 ---
 

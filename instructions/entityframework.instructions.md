@@ -1,3 +1,7 @@
+---
+applyTo: '**/*.cs'
+---
+
 # Entity Framework Core Instructions
 
 > **Claude Code:** Reference this file with `@instructions/entityframework.instructions.md` when working on DbContext, repositories, or migrations.
@@ -64,6 +68,7 @@ public sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
 ## Soft Delete Pattern
 
 Every entity that participates in soft delete must:
+
 1. Have `bool IsDeleted` property
 2. Have a global query filter in `OnModelCreating`: `HasQueryFilter(e => !e.IsDeleted)`
 3. The repository's delete method sets `IsDeleted = true` and calls `UpdateAsync`, never calls EF `Remove()`
@@ -71,6 +76,7 @@ Every entity that participates in soft delete must:
 ## Audit Columns
 
 All entities inherit from (or implement) a base:
+
 ```csharp
 public abstract class AuditableEntity
 {
@@ -78,7 +84,9 @@ public abstract class AuditableEntity
     public DateTime UpdatedAt { get; set; }
 }
 ```
+
 Override `SaveChangesAsync` in `AppDbContext` to auto-set these:
+
 ```csharp
 public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
 {

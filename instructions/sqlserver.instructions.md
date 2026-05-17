@@ -1,3 +1,7 @@
+---
+applyTo: '**/*.sql,**/*.cs'
+---
+
 # SQL Server Coding Instructions
 
 > **Claude Code:** Reference this file with `@instructions/sqlserver.instructions.md` when writing or reviewing SQL scripts.
@@ -6,7 +10,7 @@
 
 - **Never concatenate user input into SQL strings** — always use parameterized queries or sp_executesql with parameters
 - Never use dynamic SQL unless absolutely necessary; if you must, whitelist allowed values explicitly
-- Never SELECT * in production queries — always name the columns you need
+- Never SELECT \* in production queries — always name the columns you need
 
 ## Object Naming
 

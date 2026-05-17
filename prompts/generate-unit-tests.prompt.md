@@ -1,87 +1,59 @@
+---
+mode: 'agent'
+description: 'Generate unit tests for any class or module — language-agnostic'
+---
+
 # Generate Unit Tests
 
-> **Claude Code usage:** Copy this prompt into your Claude Code session (or reference with `@prompts/generate-unit-tests.prompt.md`), then fill in the **Target Class** section at the bottom.
+> **Claude Code usage:** Reference with `@prompts/generate-unit-tests.prompt.md` and include the file to test, e.g. `@prompts/generate-unit-tests.prompt.md @src/order_service.py`.
+> For stack-specific conventions and templates use a language-specific variant instead:
+> `generate-unit-tests-dotnet.prompt.md` · `generate-unit-tests-java.prompt.md` · `generate-unit-tests-react.prompt.md` · `generate-unit-tests-python.prompt.md`
 
-Generate a complete xUnit test class for the target class, following project testing conventions.
+Generate a complete, production-quality test suite for the target class or module using the testing framework and conventions already in use in this project.
+
+> **Scope:** The scenarios listed below are a _minimum baseline_. Add any additional cases you identify as valuable — do not artificially restrict coverage to this list.
 
 ## What to Generate
 
-1. **Test class** (`src/MyApp.Tests/<Namespace>/<ClassName>Tests.cs`)
-   - Class name: `<ClassName>Tests`
-   - Namespace matches the subject class's namespace
-   - One `[Fact]` per distinct scenario; use `[Theory]` with `[InlineData]` / `[MemberData]` for parameterized cases
-   - Method name format: `MethodName_Scenario_ExpectedResult`
-
-2. **Test setup**
-   - Mock all external dependencies with **Moq** (`Mock<IDependency>`)
-   - Construct the **subject under test** (SUT) in a shared field or local variable — never mock the SUT itself
-   - Use **FluentAssertions** for assertions (`result.Should().Be(...)`, `act.Should().ThrowAsync<...>()`)
-
-3. **Coverage targets** — generate tests for:
-   - Happy path (valid input, expected output)
-   - Null / missing input edge cases
+1. **Test file** following the naming and location conventions already used in this project
+2. **Mock / stub all external dependencies** — never mock the system under test itself
+3. **At minimum**, one test per public method covering:
+   - Happy path (valid input → expected output or side-effect)
+   - Null / empty / missing inputs
    - Boundary values
-   - Exception paths (what exceptions are thrown and when)
-   - Async cancellation if `CancellationToken` is used
+   - Every distinct exception or error path
+   - Async cancellation where applicable
+4. **Parameterized tests** for any logic that branches on varying inputs
+5. **Verify interactions** with dependencies where a call is required (not just that no exception is thrown)
 
-## Test Structure Template
+## Test Structure
 
-```csharp
-public sealed class OrderServiceTests
-{
-    private readonly Mock<IOrderRepository> _repoMock = new();
-    private readonly Mock<ILogger<OrderService>> _loggerMock = new();
-    private readonly OrderService _sut;
+Regardless of language, follow Arrange / Act / Assert:
 
-    public OrderServiceTests()
-    {
-        _sut = new OrderService(_repoMock.Object, _loggerMock.Object);
-    }
-
-    [Fact]
-    public async Task CreateOrderAsync_ValidRequest_ReturnsCreatedOrderId()
-    {
-        // Arrange
-        var request = new CreateOrderRequest(...);
-        _repoMock
-            .Setup(r => r.AddAsync(It.IsAny<Order>(), It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
-
-        // Act
-        var result = await _sut.CreateOrderAsync(request);
-
-        // Assert
-        result.Should().NotBeEmpty();
-        _repoMock.Verify(r => r.AddAsync(It.IsAny<Order>(), It.IsAny<CancellationToken>()), Times.Once);
-    }
-
-    [Fact]
-    public async Task CreateOrderAsync_NullRequest_ThrowsArgumentNullException()
-    {
-        var act = async () => await _sut.CreateOrderAsync(null!);
-        await act.Should().ThrowAsync<ArgumentNullException>();
-    }
-}
+```
+// Arrange — set up inputs, mocks, and expected values
+// Act     — call the method under test
+// Assert  — verify the result and any required side-effects
 ```
 
-## EF Core Integration Tests (SQLite In-Memory)
+One assertion _concept_ per test. If a scenario genuinely requires multiple assertions, group only the closely related ones together.
 
-When testing repositories directly:
-```csharp
-var options = new DbContextOptionsBuilder<AppDbContext>()
-    .UseSqlite("DataSource=:memory:")
-    .Options;
-using var db = new AppDbContext(options);
-db.Database.EnsureCreated();
-```
+## File and Tooling Conventions
 
-## Target Class
+Before generating, scan the existing test files in the project to identify:
 
-**Fill in before running** — describe the class to test, for example:
+- The test framework and assertion library in use
+- The mocking library in use
+- The file naming and folder structure in use
+- The test method naming pattern in use
 
-- Class: `OrderService`
-- Methods to test: `CreateOrderAsync`, `CancelOrderAsync`
-- Edge cases: null request, order not found, cancelling an already-shipped order
-- Include the file with `@src/MyApp.Application/Services/OrderService.cs`
+Follow whatever is already there. Do not introduce new dependencies.
 
-> Replace this section with your class details, then send the full prompt to Claude Code.
+## Target Class / Module
+
+**Fill in before running:**
+
+- **Class / module:** e.g. `OrderService`
+- **Methods to test:** e.g. `createOrder`, `cancelOrder`
+- **Key scenarios / edge cases:** e.g. order not found, duplicate request, payment failure
+- **File:** include alongside this prompt, e.g. `@src/services/order_service.py` or `@src/OrderService.java`

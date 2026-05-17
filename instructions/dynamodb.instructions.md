@@ -1,3 +1,7 @@
+---
+# No applyTo: reference manually with #file: when working with DynamoDB
+---
+
 # Amazon DynamoDB Instructions
 
 > **Claude Code:** Reference this file with `@instructions/dynamodb.instructions.md` when working on DynamoDB models, repositories, or queries.
@@ -137,6 +141,7 @@ catch (ConditionalCheckFailedException)
 ## GSI Design Checklist
 
 Before adding a GSI, confirm:
+
 1. Is this access pattern queried frequently enough to justify the cost?
 2. Is the GSI partition key highly selective (avoids hot partitions)?
 3. Are you projecting only the attributes needed (KEYS_ONLY, INCLUDE, or ALL)?

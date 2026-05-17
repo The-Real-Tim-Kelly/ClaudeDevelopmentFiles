@@ -1,3 +1,8 @@
+---
+mode: 'agent'
+description: 'Scaffold the full vertical slice for a feature (entity, repo, service, endpoint)'
+---
+
 # Scaffold Vertical Slice
 
 > **Claude Code usage:** Reference this with `@prompts/scaffold-vertical-slice.prompt.md` and fill in the **Feature Details** section at the bottom. This generates the complete stack for one feature in a single pass.

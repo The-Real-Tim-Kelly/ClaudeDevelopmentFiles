@@ -1,3 +1,7 @@
+---
+applyTo: '**'
+---
+
 # Observe-First Instructions
 
 > **Claude Code:** Combine this file with any other instruction file when working in an **existing codebase** that may have its own established conventions:
@@ -35,12 +39,12 @@ When you receive a task, spend a moment observing:
 
 ## Priority Rules
 
-| Category | Priority |
-|---|---|
-| **Existing codebase patterns** (naming, structure, style) | **Highest** — always follow what's there |
-| **Companion instruction file** (standards & best practices) | Default — apply when no existing pattern is observable |
-| **Security rules** (see below) | **Non-negotiable** — apply regardless of existing patterns |
-| **Correctness rules** (see below) | **Non-negotiable** — apply regardless of existing patterns |
+| Category                                                    | Priority                                                   |
+| ----------------------------------------------------------- | ---------------------------------------------------------- |
+| **Existing codebase patterns** (naming, structure, style)   | **Highest** — always follow what's there                   |
+| **Companion instruction file** (standards & best practices) | Default — apply when no existing pattern is observable     |
+| **Security rules** (see below)                              | **Non-negotiable** — apply regardless of existing patterns |
+| **Correctness rules** (see below)                           | **Non-negotiable** — apply regardless of existing patterns |
 
 ---
 
@@ -49,6 +53,7 @@ When you receive a task, spend a moment observing:
 These rules apply regardless of what existing code does. If existing code violates them, do not replicate the violation — but also do not refactor existing code unless that's explicitly part of the task.
 
 ### Security (never compromise)
+
 - Never build SQL strings from user input — use parameterized queries
 - Never log passwords, tokens, API keys, or PII
 - Never hardcode credentials or secrets in source code
@@ -56,6 +61,7 @@ These rules apply regardless of what existing code does. If existing code violat
 - Validate all inputs at system boundaries
 
 ### Correctness (never compromise)
+
 - Do not introduce race conditions or thread-safety issues
 - Do not silently swallow exceptions
 - Do not ignore or discard `CancellationToken` / `Context` / cancellation signals when they are passed in
@@ -68,12 +74,12 @@ These rules apply regardless of what existing code does. If existing code violat
 
 When you observe a pattern that conflicts with the companion instruction file, use this logic:
 
-| Situation | What to do |
-|---|---|
+| Situation                                                                        | What to do                                                                             |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | Existing code has a clear, consistent style that differs from the companion file | Follow existing code; note the deviation in a brief inline comment if it's non-obvious |
-| Existing code is **inconsistent** (mixed patterns) | Apply the companion file's standard and note that you're normalizing |
-| Existing code violates a non-negotiable rule | Apply the correct approach for new code; do not replicate the violation |
-| No existing code to observe (new file, new project) | Apply the companion instruction file's standards in full |
+| Existing code is **inconsistent** (mixed patterns)                               | Apply the companion file's standard and note that you're normalizing                   |
+| Existing code violates a non-negotiable rule                                     | Apply the correct approach for new code; do not replicate the violation                |
+| No existing code to observe (new file, new project)                              | Apply the companion instruction file's standards in full                               |
 
 ---
 
