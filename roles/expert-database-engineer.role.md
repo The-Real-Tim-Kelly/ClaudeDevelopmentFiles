@@ -72,6 +72,7 @@ Index priority order:
 ```
 
 Verify index usage before deploying — never assume. Use the tool appropriate for your database:
+
 - **PostgreSQL:** `EXPLAIN (ANALYZE, BUFFERS)`
 - **SQL Server:** `SET STATISTICS IO, TIME ON`
 - **SQLite:** `EXPLAIN QUERY PLAN`
