@@ -111,6 +111,8 @@ Pre-written, opinionated task prompts. Reference them in Claude Code or paste th
 | [`prompts/code-review-java.prompt.md`](./prompts/code-review-java.prompt.md)                     | Code review — Java / Spring Boot / JPA              |
 | [`prompts/code-review-react.prompt.md`](./prompts/code-review-react.prompt.md)                   | Code review — React / TypeScript / TanStack Query   |
 | [`prompts/code-review-python.prompt.md`](./prompts/code-review-python.prompt.md)                 | Code review — Python / FastAPI / SQLAlchemy         |
+| [`prompts/generate-agent-config.prompt.md`](./prompts/generate-agent-config.prompt.md)           | Generate a new instruction, prompt, or role file    |
+| [`prompts/review-agent-config.prompt.md`](./prompts/review-agent-config.prompt.md)               | Review an existing agent config file for quality    |
 
 ### Role / Persona Files (On Demand)
 
