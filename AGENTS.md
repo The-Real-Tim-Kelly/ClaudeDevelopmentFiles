@@ -128,6 +128,8 @@ Activate an expert persona for a specific type of task. Combine with instruction
 | [`roles/expert-debugger.role.md`](./roles/expert-debugger.role.md)                   | Debugging Specialist          | Root cause analysis of bugs and unexpected behavior           |
 | [`roles/expert-refactorer.role.md`](./roles/expert-refactorer.role.md)               | Refactoring Specialist        | Behavior-preserving structural improvements                   |
 | [`roles/expert-database-engineer.role.md`](./roles/expert-database-engineer.role.md) | Senior Database Engineer      | Schema design, query review, migration safety                 |
+| [`roles/expert-agent-author.role.md`](./roles/expert-agent-author.role.md)           | Agent Config Author           | Writing new instruction, prompt, or role files                |
+| [`roles/expert-agent-reviewer.role.md`](./roles/expert-agent-reviewer.role.md)       | Agent Config Reviewer         | Reviewing agent config files for quality, accuracy, and waste |
 
 ### Documentation
 
